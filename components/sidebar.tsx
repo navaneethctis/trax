@@ -1,16 +1,16 @@
-import {
-  Box,
-  LinkBox,
-  LinkOverlay,
-  List,
-  ListIcon,
-  ListItem,
-} from "@chakra-ui/react";
+import { Box, Divider, List } from "@chakra-ui/react";
 import Image from "next/image";
-import Link from "next/link";
-import { MdHome, MdLibraryMusic, MdSearch } from "react-icons/md";
+import {
+  MdFavorite,
+  MdHome,
+  MdLibraryMusic,
+  MdPlaylistAdd,
+  MdSearch,
+} from "react-icons/md";
 
-const MENU_ITEMS = [
+import SidebarItem from "./sidebar-item";
+
+const NAV_ITEMS = [
   {
     href: "/",
     icon: MdHome,
@@ -28,33 +28,53 @@ const MENU_ITEMS = [
   },
 ];
 
+const MUSIC_ITEMS = [
+  {
+    href: "/",
+    icon: MdPlaylistAdd,
+    text: "Create Playlist",
+  },
+  {
+    href: "/",
+    icon: MdFavorite,
+    text: "Favorites",
+  },
+];
+
+const PLAYLISTS = new Array(100)
+  .fill(null)
+  .map((item, index) => `Playlist ${index + 1}`);
+
 const Sidebar = () => {
   return (
     <Box bgColor="black" color="gray" height="100%" paddingX="5px" width="100%">
-      <Box paddingY="20px">
+      <Box height="100%" paddingY="20px">
         <Box marginBottom="20px" paddingX="20px" width="120px">
           <Image alt="Trax Logo" height={60} src="/logo.svg" width={120} />
         </Box>
 
         <Box marginBottom="20px">
           <List spacing={2}>
-            {MENU_ITEMS.map((item) => {
-              return (
-                <ListItem fontSize="16px" key={item.text} paddingX="20px">
-                  <LinkBox>
-                    <Link href={item.href} passHref>
-                      <LinkOverlay>
-                        <ListIcon
-                          as={item.icon}
-                          color="white"
-                          marginRight="20px"
-                        />
-                        {item.text}
-                      </LinkOverlay>
-                    </Link>
-                  </LinkBox>
-                </ListItem>
-              );
+            {NAV_ITEMS.map((item) => {
+              return <SidebarItem item={item} key={item.text} />;
+            })}
+          </List>
+        </Box>
+
+        <Box>
+          <List spacing={2}>
+            {MUSIC_ITEMS.map((item) => {
+              return <SidebarItem item={item} key={item.text} />;
+            })}
+          </List>
+        </Box>
+
+        <Divider color="gray.800" />
+
+        <Box height="60%" overflowY="auto">
+          <List spacing={2}>
+            {PLAYLISTS.map((item) => {
+              return <SidebarItem item={item} key={item} />;
             })}
           </List>
         </Box>
